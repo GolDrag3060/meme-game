@@ -37,7 +37,10 @@
             <h2 id="feedback-text" style="margin:0; font-size: 1.5rem;"></h2>
         </div>
 
-        <div id="question-box" class="movie-screen"></div>
+        <div id="question-area">
+            <div id="question-box" class="movie-screen"></div>
+            <div id="question-content-hide"></div>
+        </div>
         <div id="answers-buttons" class="options-grid"></div>
     </main>
 
