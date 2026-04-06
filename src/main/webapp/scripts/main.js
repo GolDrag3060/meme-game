@@ -1,7 +1,7 @@
 const allData = {
     global: [
         {
-            type: "audio",
+            type: "video",
             revealVideo: "video/is.mp4",
             options: ["Star Wars", "Schindler's list", "Dune", "Interstellar"],
             correct: 3,
@@ -167,12 +167,16 @@ function loadLevel() {
 function renderNewQuestion(q) {
     const box = document.getElementById("question-box");
     const btnBox = document.getElementById("answers-buttons");
+    document.getElementById("question-content-hide").style.display = "block";
     document.getElementById("result-controls").style.display = "none";
 
     // Double-check clear
     btnBox.innerHTML = "";
-
-    if (q.type === "audio") {
+    if (q.type === "video") {
+        box.innerHTML = `<video width="100%" height="100%" autoplay controls style="object-fit:contain;">
+                            <source src="${q.revealVideo}" type="video/mp4">
+                         </video>`;
+    } else if (q.type === "audio") {
         box.innerHTML = `<p>Guess the sound</p><audio autoplay controls style="width:90%"><source src="${q.content}"></audio>`;
     } else {
         box.innerHTML = `<img src="${q.content}" style="width:100%; height:100%; object-fit:cover;">`;
@@ -192,6 +196,8 @@ function renderAnsweredState(q, selectedIdx) {
     const btnBox = document.getElementById("answers-buttons");
     const feedback = document.getElementById("feedback-text"); // Ensure this ID exists in HTML for the "Cool" UI
     document.getElementById("result-controls").style.display = "flex";
+    document.getElementById("question-content-hide").style.display = "none";
+
 
     btnBox.innerHTML = "";
 
@@ -206,16 +212,16 @@ function renderAnsweredState(q, selectedIdx) {
     }
 
     // LOGIC FIX: Check if we should show a Video or an Image reveal
-    if (q.revealVideo) {
-        box.innerHTML = `<video width="100%" height="100%" autoplay controls style="object-fit:contain;">
-                            <source src="${q.revealVideo}" type="video/mp4">
-                         </video>`;
-    } else if (q.revealPic) {
-        box.innerHTML = `<img src="${q.revealPic}" style="width:100%; height:100%; object-fit:contain;">`;
-    } else {
-        // Fallback if no reveal media is defined
-        box.innerHTML = `<p style="padding:20px">The answer was: ${q.options[q.correct]}</p>`;
-    }
+    // if (q.revealVideo) {
+    //     box.innerHTML = `<video width="100%" height="100%" autoplay controls style="object-fit:contain;">
+    //                         <source src="${q.revealVideo}" type="video/mp4">
+    //                      </video>`;
+    // } else if (q.revealPic) {
+    //     box.innerHTML = `<img src="${q.revealPic}" style="width:100%; height:100%; object-fit:contain;">`;
+    // } else {
+    //     // Fallback if no reveal media is defined
+    //     box.innerHTML = `<p style="padding:20px">The answer was: ${q.options[q.correct]}</p>`;
+    // }
 
     // Render disabled buttons
     q.options.forEach((opt, idx) => {
